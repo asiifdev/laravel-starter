@@ -1,7 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "asiifdev/laravel-starter",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "The starter Kit application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
