@@ -686,7 +686,10 @@ function getRelation($table)
 
 function getTags()
 {
-    $array = DB::table('tags')->get('name')->pluck('name')->toArray();
+    $array = [];
+    if (Schema::hasTable('tags')) {
+        $array = DB::table('tags')->get('name')->pluck('name')->toArray();
+    }
     return json_encode(array_map('ucfirst', $array));
 }
 
