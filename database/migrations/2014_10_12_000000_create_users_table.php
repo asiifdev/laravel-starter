@@ -23,12 +23,6 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
             $table->string('linkedin')->nullable();
-            $table->string('bpjs')->nullable();
-            $table->string('nik')->nullable();
-            $table->string('jenis_usaha')->nullable();
-            $table->string('tanggal_lahir')->nullable();
-            $table->string('program')->nullable();
-            $table->string('periode')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

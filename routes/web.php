@@ -27,6 +27,11 @@ Auth::routes();
 Route::get('/home', function () {
     return redirect()->to('admin');
 });
+
+Route::get('/', function () {
+    return redirect()->to('admin');
+});
+
 $user = auth()->user();
 
 Route::group(["as" => "admin.", "prefix" => "admin", "middleware" => 'auth'], function () {

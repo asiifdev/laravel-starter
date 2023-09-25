@@ -199,20 +199,13 @@
                                     <span class="menu-title">Home</span>
                                 </a>
                                 @role(['superadmin', 'admin'])
-                                    <a class="menu-link {{ getClassActive('admin.visitors.index') }}"
-                                        href="{{ route('admin.visitors.index') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Visitors</span>
-                                    </a>
-                                    <a class="menu-link {{ getClassActive('admin.visitor-logs.index') }}"
+                                    {{-- <a class="menu-link {{ getClassActive('admin.visitor-logs.index') }}"
                                         href="{{ route('admin.visitor-logs.index') }}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
                                         <span class="menu-title">Visitor Logs</span>
-                                    </a>
+                                    </a> --}}
                                 @endrole
                                 <!--end:Menu link-->
                             </div>
@@ -252,15 +245,6 @@
                                         <span class="menu-title">Users</span>
                                     </a>
                                     <!--end:Menu link-->
-                                    <!--begin:Menu link-->
-                                    <a class="menu-link {{ getClassActive('admin.master.katalog-categories.index') }}"
-                                        href="{{ route('admin.master.katalog-categories.index') }}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Katalog Categories</span>
-                                    </a>
-                                    <!--end:Menu link-->
                                 </div>
                                 <!--end:Menu item-->
                             </div>
@@ -283,86 +267,6 @@
                             <span class="menu-arrow"></span>
                         </span>
                         <!--end:Menu link-->
-                        <!--begin:Menu sub-->
-                        <div class="menu-sub menu-sub-accordion">
-                            @role(['superadmin', 'admin'])
-                                <!--begin:Menu item-->
-                                <div data-kt-menu-trigger="click"
-                                    class="menu-item menu-accordion {{ getClassShow('admin.resources.blogs.*') }}">
-                                    <!--begin:Menu link-->
-                                    <span class="menu-link">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">Blogs</span>
-                                        <span class="menu-arrow"></span>
-                                    </span>
-                                    <!--end:Menu link-->
-                                    <!--begin:Menu sub-->
-                                    <div class="menu-sub menu-sub-accordion">
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <a class="menu-link {{ getClassActive('admin.resources.blogs.blog-categories.index') }}"
-                                                href="{{ route('admin.resources.blogs.blog-categories.index') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Categories</span>
-                                            </a>
-                                        </div>
-                                        <!--end:Menu item-->
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <a class="menu-link {{ getClassActive('admin.resources.blogs.my-blogs.index') }}"
-                                                href="{{ route('admin.resources.blogs.my-blogs.index') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">My Blogs</span>
-                                            </a>
-                                        </div>
-                                        <!--end:Menu item-->
-                                        <!--begin:Menu item-->
-                                        <div class="menu-item">
-                                            <a class="menu-link {{ getClassActive('admin.resources.blogs.tags.index') }}"
-                                                href="{{ route('admin.resources.blogs.tags.index') }}">
-                                                <span class="menu-bullet">
-                                                    <span class="bullet bullet-dot"></span>
-                                                </span>
-                                                <span class="menu-title">Tags</span>
-                                            </a>
-                                        </div>
-                                        <!--end:Menu item-->
-                                    </div>
-                                    <!--end:Menu sub-->
-                                </div>
-                                <!--end:Menu item-->
-                                <a class="menu-link {{ getClassActive('admin.resources.galleries.index') }}"
-                                    href="{{ route('admin.resources.galleries.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Gallery</span>
-                                </a>
-                                <!--end:Menu item-->
-                                <a class="menu-link {{ getClassActive('admin.resources.facilities.index') }}"
-                                    href="{{ route('admin.resources.facilities.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Fasilitas</span>
-                                </a>
-                            @endrole
-                            <!--end:Menu item-->
-                            <a class="menu-link {{ getClassActive('admin.resources.katalog.index') }}"
-                                href="{{ route('admin.resources.katalog.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Katalog</span>
-                            </a>
-                        </div>
-                        <!--end:Menu sub-->
                     </div>
                     <!--end:Menu item-->
                     <!--begin:Menu item-->
@@ -383,13 +287,6 @@
                         <!--begin:Menu sub-->
                         <div class="menu-sub menu-sub-accordion">
                             @role(['superadmin|admin'])
-                                <a class="menu-link {{ getClassActive('admin.settings.slider.index') }}"
-                                    href="{{ route('admin.settings.slider.index') }}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Slider Home</span>
-                                </a>
                                 <a class="menu-link {{ getClassActive('admin.settings.company.index') }}"
                                     href="{{ route('admin.settings.company.index') }}">
                                     <span class="menu-bullet">

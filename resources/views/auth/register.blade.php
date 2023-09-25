@@ -1,131 +1,171 @@
-@extends('layouts.web.app')
-@php
-    $company = getCompanySetting();
-    $title = 'Register';
-@endphp
-@section('content')
-    <!-- Contact Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="bg-light rounded">
-                <div class="row g-0">
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                        <div class="h-100 d-flex flex-column justify-content-center p-5">
-                            <h3>
-                                <p class="mb-4">Daftar BPJSTK</p>
-                            </h3>
-                            <div class="row g-3">
-                                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control border-0" id="name"
-                                                name="name" value="{{ old('name') }}" placeholder="Nama Lengkap"
-                                                required>
-                                            <label for="name">Nama Lengkap</label>
-                                        </div>
-                                        @error('name')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control border-0" id="email"
-                                                name="email" value="{{ old('email') }}" placeholder="Email" required>
-                                            <label for="email">Email</label>
-                                        </div>
-                                        @error('email')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control border-0" id="password"
-                                                name="password" value="{{ old('password') }}" placeholder="Password"
-                                                required>
-                                            <label for="password">Password</label>
-                                        </div>
-                                        @error('password')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input required type="date" class="form-control border-0" id="ttl"
-                                                name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                                                placeholder="Tanggal">
-                                            <label for="ttl">Tanggal Lahir</label>
-                                        </div>
-                                        @error('tanggal_lahir')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input required type="text" class="form-control border-0" id="nik"
-                                                name="nik" value="{{ old('nik') }}" placeholder="NIK">
-                                            <label for="nik">NIK</label>
-                                        </div>
-                                        @error('nik')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <input required type="text" class="form-control border-0" id="jenis"
-                                                name="jenis_usaha" value="{{ old('jenis_usaha') }}"
-                                                placeholder="Jenis Usaha">
-                                            <label for="jenis">Jenis Usaha</label>
-                                        </div>
-                                        @error('jenis_usaha')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <select required class="form-select form-select-sm" name="program"
-                                                value="{{ old('program') }}" aria-label=".form-select-lg example">
-                                                <option value="1">JKK JKM</option>
-                                                <option value="2">JKK JKM JHT</option>
-                                            </select>
-                                            <label for="program">Program</label>
-                                        </div>
-                                        @error('program')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group my-3">
-                                        <div class="form-floating">
-                                            <select required class="form-select form-select-sm" name="periode"
-                                                value="{{ old('periode') }}" aria-label=".form-select-lg example"
-                                                id="periode">
-                                                <option value="1">2 (bulan)</option>
-                                                <option value="2">3 (bulan)</option>
-                                                <option value="3">6 (bulan)</option>
-                                                <option value="4">12 (bulan)</option>
-                                            </select>
-                                            <label for="periode">Periode Bulan</label>
-                                        </div>
-                                        @error('periode')
-                                            <div class="error text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="d-flex mt-5">
-                                        <input class="btn btn-primary w-100 py-3" value="Register" type="submit"></input>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                        <div class="position-relative rounded w-100 h-100">
-                            <img class="img-fluid" alt="" src="{{ url('assets/landing/img/bayar.jpg') }}"
-                                style="min-height: 400px; border:0;">
-                        </div>
-                    </div>
+<!DOCTYPE html>
+<html lang="id">
+<!--begin::Head-->
+
+<head>
+    <base href="{{ url('admin') }}" />
+    <title>{{ ucfirst(getCompanySetting()->name) }} - Login Dashboard</title>
+    <meta charset="utf-8" />
+    <meta name="description"
+        content="{{ getCompanySetting()->meta_description }}." />
+    <meta name="keywords"
+        content="{{ getCompanySetting()->meta_keyword }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title"
+        content="{{ getCompanySetting()->meta_description }}" />
+    <meta property="og:url" content="{{ url('/admin') }}" />
+    <meta property="og:site_name" content="{{ getCompanySetting()->name }}" />
+    <link rel="canonical" href="{{ url('/admin') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/metronic/media/logos/favicon.ico') }}" />
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="{{ asset('assets/metronic/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/metronic/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+    <script>
+        // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }
+    </script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_body" class="app-blank bgi-size-cover bgi-attachment-fixed bgi-position-center bgi-no-repeat">
+    <!--begin::Theme mode setup on page load-->
+    <script>
+        var defaultThemeMode = "light";
+        var themeMode;
+        if (document.documentElement) {
+            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
+                themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
+            } else {
+                if (localStorage.getItem("data-bs-theme") !== null) {
+                    themeMode = localStorage.getItem("data-bs-theme");
+                } else {
+                    themeMode = defaultThemeMode;
+                }
+            }
+            if (themeMode === "system") {
+                themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            }
+            document.documentElement.setAttribute("data-bs-theme", themeMode);
+        }
+    </script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root" id="kt_app_root">
+        <!--begin::Page bg image-->
+        <style>
+            body {
+                background-image: url('{{ asset('assets/metronic/media/auth/bg4.jpg') }}');
+            }
+
+            [data-bs-theme="dark"] body {
+                background-image: url('{{ asset('assets/metronic/media/auth/bg4-dark.jpg') }}');
+            }
+        </style>
+        <!--end::Page bg image-->
+        <!--begin::Authentication - Sign-in -->
+        <div class="d-flex flex-column flex-column-fluid flex-lg-row">
+            <!--begin::Aside-->
+            <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
+                <!--begin::Aside-->
+                <div class="d-flex flex-center flex-lg-start flex-column">
+                    <!--begin::Logo-->
+                    <a href="{{ url('admin') }}" class="mb-7">
+                        <img alt="Logo" style="min-height: 15px; max-height: 100px" src="{{ asset('assets/logo-portrait.png?version=1') }}" />
+                    </a>
+                    <!--end::Title-->
                 </div>
+                <!--begin::Aside-->
             </div>
+            <!--begin::Aside-->
+            <!--begin::Body-->
+            <div
+                class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 p-lg-20">
+                <!--begin::Card-->
+                <div class="bg-body d-flex flex-column align-items-stretch flex-center rounded-4 w-md-600px p-20">
+                    <!--begin::Wrapper-->
+                    <div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
+                        <!--begin::Form-->
+                        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form"
+                            data-kt-redirect-url="{{ url('admin') }}" action="{{ url('login') }}" method="POST">
+                            @csrf
+                            <!--begin::Heading-->
+                            <div class="text-center mb-11">
+                                <!--begin::Title-->
+                                <h1 class="text-dark fw-bolder mb-3">Sign In</h1>
+                                <!--end::Title-->
+                                <!--begin::Subtitle-->
+                                <div class="text-gray-500 fw-semibold fs-6">Your Social Campaigns</div>
+                                <!--end::Subtitle=-->
+                            </div>
+                            <!--begin::Heading-->
+                            <!--begin::Input group=-->
+                            <div class="fv-row mb-8">
+                                <!--begin::Email-->
+                                <input type="text" placeholder="Email" name="email" autocomplete="off"
+                                    class="form-control bg-transparent" />
+                                <!--end::Email-->
+                            </div>
+                            <!--end::Input group=-->
+                            <div class="fv-row mb-3">
+                                <!--begin::Password-->
+                                <input type="password" placeholder="Password" name="password" autocomplete="off"
+                                    class="form-control bg-transparent" />
+                                <!--end::Password-->
+                            </div>
+                            <!--end::Input group=-->
+                            <!--begin::Wrapper-->
+                            <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
+                                <div></div>
+                                <!--begin::Link-->
+                                <a href="../../demo36/dist/authentication/layouts/creative/reset-password.html"
+                                    class="link-primary">Forgot Password ?</a>
+                                <!--end::Link-->
+                            </div>
+                            <!--end::Wrapper-->
+                            <!--begin::Submit button-->
+                            <div class="d-grid mb-10">
+                                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
+                                    <!--begin::Indicator label-->
+                                    <span class="indicator-label">Sign In</span>
+                                    <!--end::Indicator label-->
+                                    <!--begin::Indicator progress-->
+                                    <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                    <!--end::Indicator progress-->
+                                </button>
+                            </div>
+                            <!--end::Submit button-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Body-->
         </div>
+        <!--end::Authentication - Sign-in-->
     </div>
-    <!-- Contact End -->
-@endsection
+    <!--end::Root-->
+    <!--begin::Javascript-->
+    <script>
+        var hostUrl = "assets/";
+    </script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="{{ asset('assets/metronic/plugins/global/plugins.bundle.js') }}"></script>
+    <script src="{{ asset('assets/metronic/js/scripts.bundle.js') }}"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Custom Javascript(used for this page only)-->
+    <script src="{{ asset('assets/metronic/js/custom/authentication/sign-in/general.js') }}"></script>
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+</body>
+<!--end::Body-->
+
+</html>
