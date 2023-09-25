@@ -19,7 +19,6 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' =>'superadmin@mail.com',
             'photo' => 'https://ui-avatars.com/api/?name=Manager&background=random',
-            'jenis_usaha' => 'Pegawai BPJS',
             'password' => bcrypt('password')
         ]);
         $superadmin->assignRole('superadmin');
@@ -28,7 +27,6 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' =>'admin@mail.com',
             'photo' => 'https://ui-avatars.com/api/?name=Staff&background=random',
-            'jenis_usaha' => 'Pegawai BPJS',
             'password' => bcrypt('password')
         ]);
         $admin->assignRole('admin');
@@ -37,7 +35,6 @@ class UserSeeder extends Seeder
             'name' => 'UMKM',
             'email' =>'umkm@mail.com',
             'password' => bcrypt('password'),
-            'jenis_usaha' => 'Penjual Roti'
         ]);
         $user->assignRole('umkm');
     }
