@@ -39,6 +39,8 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
             $table = implode('_', array_map('ucfirst', explode('_', $table)));
             if (substr($table, -3) == 'ies') {
                 $table = substr($table, 0, -3) . 'y';
+            } else if (substr($table, -2) == 'is' || substr($table, -2) == 'as' || substr($table, -2) == 'es' || substr($table, -2) == 'us' || substr($table, -2) == 'os') {
+                $table = $table . "";
             } else if (substr($table, -1) == 's') {
                 $table = substr($table, 0, -1);
             }
@@ -46,7 +48,6 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
             $controllerForm = base_path('app/Http/Controllers/TemplateController.pug');
             $controllerTo = base_path('app/Http/Controllers/' . ucfirst(str_replace("_", "", $table)) . 'Controller.php');
 
-            $this->info('Table ' . $tableName . ' Ditemukan!');
             $this->warn('Proses pembuatan Templating untuk table ' . $tableName);
             copy($controllerForm, $controllerTo);
             $this->info('Berhasil membuat Controller ke ' . $controllerTo . ' !');
@@ -61,8 +62,9 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
             file_put_contents($controllerTo, $file_contents);
 
             $this->info('Berhasil menulis function ke Controller ' . ucfirst(str_replace("_", "", $table) . 'Controller'));
-            $this->info("\nGimana,mantap kan? wkwkk");
+            $this->info("\nGIMANA,MANTAP KAN? wkwkk");
         }
+        return 0;
     }
 
     /**
@@ -73,14 +75,16 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
     protected function promptForMissingArgumentsUsing()
     {
         return [
-            // 'tables' => ['Anda akan membuat Template untuk table apa?', 'E.g. users'],
             'tables' => fn () => search(
                 label: 'Search for a table name:',
                 placeholder: 'E.g. users',
+                scroll: 10,
                 options: fn ($value) => (strlen($value) > 0
-                    ? (getListTable()->where('name', $value)->first() != NULL ? ['success' => 'Tabel Ditemukan!'] : ['error' => 'Tabel tidak ditemukan'])
+                    ? getListTable()->filter(function ($item) use ($value) {
+                        return false !== stripos($item['name'], $value);
+                    })->pluck('name')->all()
                     : []
-                )
+                ),
             ),
         ];
     }

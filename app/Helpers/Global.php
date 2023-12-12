@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -696,13 +697,15 @@ function getTags()
 function getListTable($search = "")
 {
     $table = DB::select('SHOW TABLES');
+    $dbName = env('DB_DATABASE');
+    $db = "Tables_in_" . $dbName;
     $array = [];
     foreach ($table as $item) {
-        $array[] = collect([
-            'name' => $item->Tables_in_bpjs
-        ]);
+        $array[] = [
+            'name' => $item->$db,
+        ];
     }
-    return arrayToObject(collect($array));
+    return collect($array);
 }
 
 function array_to_obj($array, &$obj)
