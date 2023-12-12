@@ -17,25 +17,10 @@ class UserSeeder extends Seeder
     {
         $superadmin = User::create([
             'name' => 'Super Admin',
-            'email' =>'superadmin@mail.com',
-            'photo' => 'https://ui-avatars.com/api/?name=Manager&background=random',
+            'email' => 'superadmin@mail.com',
+            'photo' => 'https://ui-avatars.com/api/?name=Super Admin&background=random',
             'password' => bcrypt('password')
         ]);
-        $superadmin->assignRole('superadmin');
-
-        $admin = User::create([
-            'name' => 'Admin',
-            'email' =>'admin@mail.com',
-            'photo' => 'https://ui-avatars.com/api/?name=Staff&background=random',
-            'password' => bcrypt('password')
-        ]);
-        $admin->assignRole('admin');
-
-        $user = User::create([
-            'name' => 'UMKM',
-            'email' =>'umkm@mail.com',
-            'password' => bcrypt('password'),
-        ]);
-        $user->assignRole('umkm');
+        $superadmin->assignRole('Super Admin');
     }
 }

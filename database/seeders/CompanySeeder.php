@@ -14,15 +14,15 @@ class CompanySeeder extends Seeder
     public function run(): void
     {
         CompanySetting::create([
-            'name' => 'BPJSTK Preneur',
-            'email' => 'info@example.com',
-            'phone' => '+012 345 67890',
-            'meta_description' => 'Jual Beli Emas tanpa surat',
-            'meta_keyword' => 'Jual Beli Emas tanpa surat',
+            'name' => 'Asiifdev Digital Agency',
+            'email' => 'admin@asiifdev.com',
+            'phone' => '+6282134462498',
+            'meta_description' => 'Jasa Pembuatan Website Professional',
+            'meta_keyword' => 'Jasa Pembuatan Website Professional',
             'about' => '.',
             'logo' => 'assets/logo.png',
             'icon' => 'assets/icon.png',
-            'address' => '123 Street, New York, USA'
+            'address' => 'Kestalan 005/001, Nepen, Teras, Boyolali, Jawa Tengah 57372'
         ]);
     }
 }

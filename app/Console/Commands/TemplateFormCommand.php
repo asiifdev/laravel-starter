@@ -32,6 +32,11 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
         $table = $this->argument('tables');
         $tableName = $table;
         $data = getListTable()->where('name', $table)->first();
+        $defaultDatabaseTables = getDefaultDatabase();
+        if (in_array($table, $defaultDatabaseTables)) {
+            $this->warn("Cannot Create template for default database tables Laravel");
+            return 0;
+        }
 
         if ($data == null) {
             $this->error('Table yang anda masukkan tidak ditemukan!');

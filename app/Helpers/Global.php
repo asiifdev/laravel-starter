@@ -760,3 +760,15 @@ function getIcon()
     $json = File::json(public_path('assets/icon.json'));
     return  $json;
 }
+
+function getDefaultDatabase()
+{
+    $result = [
+        "users",
+        "password_reset_tokens",
+        "password_resets",
+        "failed_jobs",
+        "personal_access_tokens"
+    ];
+    return $result;
+}
