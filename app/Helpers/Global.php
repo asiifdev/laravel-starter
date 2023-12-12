@@ -15,11 +15,28 @@ if (!function_exists('moneyFormat')) {
      * moneyFormat
      *
      * @param  mixed $str
-     * @return void
+     * @return string
      */
     function moneyFormat($str)
     {
         return 'Rp. ' . number_format($str, '0', '', '.');
+    }
+}
+
+if (!function_exists('phoneFormat')) {
+    /**
+     * moneyFormat
+     *
+     * @param  mixed $str
+     * @return integer
+     */
+    function phoneFormat($str)
+    {
+        $result = preg_replace('/\s+/', '', str_replace(["-", "_"], "", $str));
+        if (str_starts_with($result, 0)) {
+            $result = "62" . substr($result, 1);
+        }
+        return intval($result);
     }
 }
 
@@ -247,6 +264,9 @@ function makeForm(mixed $table)
             $html .= "</select></div></div>";
         } else if (str_contains($col['name'], '_id')) {
             $changeName = ucfirst(str_replace("_id", "s", $col['name']));
+            if (substr($changeName, -2) == "ss") {
+                $changeName = substr($changeName, 0, -1);
+            }
             $data = "getRelation";
             $html .=
                 "<div class='row g-9 mb-8'>
@@ -383,6 +403,8 @@ function getArrayPost($request, $table)
             }
         } else if ($tableName == 'end_at' || $tableName == 'start_at') {
             $array[$tableName] = Carbon::parse($request->$tableName);
+        } else if ($tableName == 'phone' || $tableName == 'no_hp' || $tableName == 'hp') {
+            $array[$tableName] = phoneFormat($request->$tableName);
         } else if (str_ends_with($tableName, 'user_id')) {
             if (auth()->user()->roles[0]->name == 'superadmin') {
                 $array[$tableName] = auth()->user()->id;
