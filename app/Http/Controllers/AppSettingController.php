@@ -2,33 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Template;
+use App\Models\AppSetting;
 use Illuminate\Http\Request;
 
-class TemplateController extends Controller
+class AppSettingController extends Controller
 {
     /**
     * Display a listing of the resource.
     */
     public function index()
     {
-        $formHelper = getFormHelper('tableName');
-        $relation = getRelationKey('tableName');
+        $formHelper = getFormHelper('app_settings');
+        $relation = getRelationKey('app_settings');
         if(count($relation) > 0){
-            $datas = Template::with($relation)->latest()->paginate(10);
+            $datas = AppSetting::with($relation)->latest()->first();
         } else {
-            $datas = Template::latest()->paginate(10);
+            $datas = AppSetting::latest()->first();
         }
         $data = [
             "breadcrumbs" => [
                 "parent" => "Master",
-                "child" => "Template",
+                "child" => "AppSetting",
             ],
             'formHelper' => $formHelper,
-            "title" => "Template",
+            "title" => "AppSetting",
             'data' => $datas,
         ];
-        return view('admin.tableName.index', $data);
+        return view('admin.app_settings.index', $data);
     }
 
     /**
@@ -44,14 +44,9 @@ class TemplateController extends Controller
     */
     public function store(Request $request)
     {
-        $array = getArrayPost($request, 'tableName');
-        try {
-            Template::create($array);
-            return afterPost($request);
-        } catch (\Exception $e) {
-            $array['error'] = $e->getMessage();
-            return response()->json($array);
-        }
+        $request['_method'] = 'PATCH';
+        $this->update($request);
+        return redirect()->back();
     }
 
     /**
@@ -59,13 +54,13 @@ class TemplateController extends Controller
     */
     public function show(string $id)
     {
-        return Template::find($id);
+        return AppSetting::find($id);
     }
 
     /**
     * Show the form for editing the specified resource.
     */
-    public function edit(Template $city)
+    public function edit(AppSetting $city)
     {
         //
     }
@@ -73,13 +68,14 @@ class TemplateController extends Controller
     /**
     * Update the specified resource in storage.
     */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $array = getArrayPost($request, 'tableName');
+        $array = getArrayPost($request, 'app_settings');
         try {
-            $data = Template::find($id);
+            $data = AppSetting::latest()->first();
             $data->update($array);
-            return afterPost($request);
+            afterPost($request);
+            return redirect()->back();
         } catch (\Exception $e) {
             $array['error'] = $e->getMessage();
             return response()->json($array);
@@ -92,7 +88,7 @@ class TemplateController extends Controller
     public function destroy(Request $request, string $id)
     {
         try {
-            Template::destroy($id);
+            AppSetting::destroy($id);
             afterPost($request);
             return redirect()->back();
         } catch (\Exception $e) {

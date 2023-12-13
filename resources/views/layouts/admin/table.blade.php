@@ -71,6 +71,8 @@
                                     $name = implode('_', array_map('ucfirst', explode('_', $name)));
                                     if (substr($item['name'], -3) == 'ies') {
                                         $name = substr($item['name'], 0, -3) . 'y';
+                                    } elseif (substr($item['name'], -2) == 'as' || substr($item['name'], -2) == 'es' || substr($item['name'], -2) == 'us' || substr($item['name'], -2) == 'is' || substr($item['name'], -2) == 'os') {
+                                        $name = $item['name'];
                                     } elseif (substr($item['name'], -1) == 's') {
                                         $name = substr($item['name'], 0, -1);
                                     } elseif (str_contains($item['name'], '_enum')) {
@@ -166,17 +168,6 @@
                                         <td class="text-center"
                                             style="min-width: {{ strlen($item->$name) * 10 + 4 }}px;">
                                             <span class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">
-                                                {{-- @if ($name == 'tags')
-                                                    @php
-                                                        $value = $item->tags;
-                                                        $value = str_replace(['"', '[', ']'], '#', $value);
-                                                        $value = array($value);
-                                                    @endphp
-                                                    <span
-                                                        class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">
-                                                        {{ substr(str_replace('#,', ', ', str_replace('##', '#', str_replace(",", ", ", implode(", ", $value)))), 0, -1) }}
-                                                    </span>
-                                                @else --}}
                                                 <span class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">
                                                     {{ $item->$name }}
                                                 </span>
@@ -200,7 +191,8 @@
                                             <span class="path2"></span>
                                         </i>
                                     </button>
-                                    <form action="{{ $currenturl . '/' . $item->id }}" method="post" id="deleteForm{{ $item->id }}" enctype="multipart/form-data">
+                                    <form action="{{ $currenturl . '/' . $item->id }}" method="post"
+                                        id="deleteForm{{ $item->id }}" enctype="multipart/form-data">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" onclick="deleteForm('deleteForm{{ $item->id }}')"

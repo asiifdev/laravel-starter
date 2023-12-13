@@ -90,6 +90,7 @@ function makeForm(mixed $table)
         'email_verified_at',
         'slug',
         'remember_token',
+        'guard_name'
     ];
     $no = 0;
     $no_urut = 1;
@@ -359,6 +360,7 @@ function getTable(mixed $table)
         'slug',
         'updated_at',
         'created_at',
+        "guard_name"
     ];
     foreach ($columns as $item) {
         $name[$no] = [
@@ -517,6 +519,7 @@ function getColumnNameType($table)
         'id',
         'updated_at',
         'created_at',
+        "guard_name"
     ];
     foreach ($name as $item) {
         $columns[$no] = [
@@ -555,6 +558,7 @@ function getArrayValidator($table, $nonValidateCustom = [])
         "user_id",
         "post_user_id",
         "approve_user_id",
+        "guard_name"
     ];
     $nonValidate = array_merge($nonValidateCustom, $nonValidateDefault);
 
@@ -696,6 +700,18 @@ function getFormHelper($table)
 function getEnumAnimation()
 {
     $array = ['zoomin', 'zoomout', 'parallaxhorizontal', 'parallaxvertical', 'incube'];
+    return $array;
+}
+
+function getEnumBusiness_category()
+{
+    $array = ["School", "Company", "Organization"];
+    return $array;
+}
+
+function getEnumDefault_theme()
+{
+    $array = ["light", "dark", "system"];
     return $array;
 }
 

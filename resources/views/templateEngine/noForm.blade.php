@@ -1,4 +1,4 @@
 @extends('layouts.admin.app')
 @section('content')
-    @include('layouts.admin.table')
+    @include('layouts.admin.tableNoForm')
 @endsection

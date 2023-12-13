@@ -15,7 +15,7 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'app:template-form {tables}';
+    protected $signature = 'buat:form {tables}';
 
     /**
      * The console command description.
@@ -34,13 +34,32 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
         $data = getListTable()->where('name', $table)->first();
         $defaultDatabaseTables = getDefaultDatabase();
         if (in_array($table, $defaultDatabaseTables)) {
-            $this->warn("Cannot Create template for default database tables Laravel");
+            $this->error("Cannot Create template for default database tables Laravel");
             return 0;
         }
+
+        $jenis = $this->choice(
+            'What is your form type?',
+            ['Multiple Datas', 'One Data', 'No Form'],
+            0
+        );
+        $view = "default";
+        $controller = "";
+
+        if ($jenis == "One Data") {
+            $view = "oneData";
+            $controller = "oneData";
+        } else if ($jenis == "No Form") {
+            $view = "noForm";
+            $controller = "noForm";
+        }
+
+        $view = str_replace(" ", "", $view);
 
         if ($data == null) {
             $this->error('Table yang anda masukkan tidak ditemukan!');
         } else {
+            $this->clearConsole();
             $table = implode('_', array_map('ucfirst', explode('_', $table)));
             if (substr($table, -3) == 'ies') {
                 $table = substr($table, 0, -3) . 'y';
@@ -50,24 +69,33 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
                 $table = substr($table, 0, -1);
             }
 
-            $controllerForm = base_path('app/Http/Controllers/TemplateController.pug');
+            $controllerFrom = base_path("app/Http/Controllers/TemplateController$controller.pug");
             $controllerTo = base_path('app/Http/Controllers/' . ucfirst(str_replace("_", "", $table)) . 'Controller.php');
 
-            $this->warn('Proses pembuatan Templating untuk table ' . $tableName);
-            copy($controllerForm, $controllerTo);
-            $this->info('Berhasil membuat Controller ke ' . $controllerTo . ' !');
-            if (!copy($controllerForm, $controllerTo)) {
-                $this->error("failed to copy $controllerForm...\n");
+            $viewFrom = base_path("/resources/views/templateEngine/$view.blade.php");
+            $viewTo = base_path("/resources/views/admin/$tableName/index.blade.php");
+
+            if (!is_dir(base_path("/resources/views/admin/$tableName/"))) {
+                mkdir(base_path("/resources/views/admin/$tableName/"), 0777, true);
             }
-            $this->warn('Proses pembuatan function untuk controller ' . ucfirst(str_replace("_", "", $table) . 'Controller'));
+
+            copy($viewFrom, $viewTo);
+            $this->info('<options=blink;fg=white;bg=magenta>  Pembuatan Templating untuk table <options=bold;fg=white;bg=magenta>' . $tableName . "  </></>");
+            copy($controllerFrom, $controllerTo);
+            $this->info('<options=blink;fg=green;bg=white>  Berhasil membuat Controller ke <options=bold;fg=green;bg=white>' . $controllerTo . ' !  </></>');
+            if (!copy($controllerFrom, $controllerTo)) {
+                $this->error("failed to copy $controllerFrom...\n");
+            }
+            $this->info('<options=blink;fg=white;bg=magenta>  Penulisan function untuk controller <options=bold;fg=white;bg=magenta>' . ucfirst(str_replace("_", "", $table) . 'Controller   </></>'));
 
             $file_contents = file_get_contents($controllerTo);
             $file_contents = str_replace("Template", ucfirst(str_replace("_", "", $table)), $file_contents);
             $file_contents = str_replace("tableName", $tableName, $file_contents);
             file_put_contents($controllerTo, $file_contents);
 
-            $this->info('Berhasil menulis function ke Controller ' . ucfirst(str_replace("_", "", $table) . 'Controller'));
-            $this->info("\nGIMANA,MANTAP KAN? wkwkk");
+            $this->info('<options=blink;fg=green;bg=white>  Berhasil menulis function ke Controller <options=bold;fg=green;bg=white>' . ucfirst(str_replace("_", "", $table) . 'Controller  </></>'));
+            $this->line("<bg=green;fg=white;options=bold>   GIMANA,MANTAP KAN? wkwkk   </><fg=black;bg=yellow;options=blink,bold>  Silahkan masuk ke routes/web.php untuk setting routing nya.  </>");
+            $this->newLine();
         }
         return 0;
     }
@@ -92,5 +120,17 @@ class TemplateFormCommand extends Command implements PromptsForMissingInput
                 ),
             ),
         ];
+    }
+
+    public function clearConsole()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            system('cls');
+        } else {
+            system('clear');
+        }
+        $this->line("<bg=red;fg=black>=============================</>");
+        $this->line("<bg=red;fg=black>*** </><bg=red;options=bold;fg=green>PROSES PEMBUATAN FORM</><bg=red;fg=black> ***</>");
+        $this->line("<bg=red;fg=black>=============================</>");
     }
 }

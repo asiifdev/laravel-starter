@@ -15,9 +15,9 @@ class TemplateController extends Controller
         $formHelper = getFormHelper('tableName');
         $relation = getRelationKey('tableName');
         if(count($relation) > 0){
-            $datas = Template::with($relation)->latest()->paginate(10);
+            $datas = Template::with($relation)->latest()->first();
         } else {
-            $datas = Template::latest()->paginate(10);
+            $datas = Template::latest()->first();
         }
         $data = [
             "breadcrumbs" => [
@@ -44,14 +44,9 @@ class TemplateController extends Controller
     */
     public function store(Request $request)
     {
-        $array = getArrayPost($request, 'tableName');
-        try {
-            Template::create($array);
-            return afterPost($request);
-        } catch (\Exception $e) {
-            $array['error'] = $e->getMessage();
-            return response()->json($array);
-        }
+        $request['_method'] = 'PATCH';
+        $this->update($request);
+        return redirect()->back();
     }
 
     /**
@@ -73,13 +68,14 @@ class TemplateController extends Controller
     /**
     * Update the specified resource in storage.
     */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         $array = getArrayPost($request, 'tableName');
         try {
-            $data = Template::find($id);
+            $data = Template::latest()->first();
             $data->update($array);
-            return afterPost($request);
+            afterPost($request);
+            return redirect()->back();
         } catch (\Exception $e) {
             $array['error'] = $e->getMessage();
             return response()->json($array);

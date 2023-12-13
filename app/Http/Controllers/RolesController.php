@@ -2,51 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Template;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class TemplateController extends Controller
+class RolesController extends Controller
 {
     /**
-    * Display a listing of the resource.
-    */
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $formHelper = getFormHelper('tableName');
-        $relation = getRelationKey('tableName');
-        if(count($relation) > 0){
-            $datas = Template::with($relation)->latest()->paginate(10);
+        $formHelper = getFormHelper('roles');
+        $relation = getRelationKey('roles');
+        if (count($relation) > 0) {
+            $datas = Role::with($relation)->latest()->paginate(10);
         } else {
-            $datas = Template::latest()->paginate(10);
+            $datas = Role::latest()->paginate(10);
         }
         $data = [
             "breadcrumbs" => [
                 "parent" => "Master",
-                "child" => "Template",
+                "child" => "Role",
             ],
             'formHelper' => $formHelper,
-            "title" => "Template",
+            "title" => "Role",
             'data' => $datas,
         ];
-        return view('admin.tableName.index', $data);
+        return view('templateEngine.noForm', $data);
     }
 
     /**
-    * Show the form for creating a new resource.
-    */
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
         //
     }
 
     /**
-    * Store a newly created resource in storage.
-    */
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $array = getArrayPost($request, 'tableName');
+        $array = getArrayPost($request, 'roles');
         try {
-            Template::create($array);
+            Role::create($array);
             return afterPost($request);
         } catch (\Exception $e) {
             $array['error'] = $e->getMessage();
@@ -55,29 +55,29 @@ class TemplateController extends Controller
     }
 
     /**
-    * Display the specified resource.
-    */
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        return Template::find($id);
+        return Role::find($id);
     }
 
     /**
-    * Show the form for editing the specified resource.
-    */
-    public function edit(Template $city)
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Role $city)
     {
         //
     }
 
     /**
-    * Update the specified resource in storage.
-    */
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id)
     {
-        $array = getArrayPost($request, 'tableName');
+        $array = getArrayPost($request, 'roles');
         try {
-            $data = Template::find($id);
+            $data = Role::find($id);
             $data->update($array);
             return afterPost($request);
         } catch (\Exception $e) {
@@ -87,12 +87,12 @@ class TemplateController extends Controller
     }
 
     /**
-    * Remove the specified resource from storage.
-    */
+     * Remove the specified resource from storage.
+     */
     public function destroy(Request $request, string $id)
     {
         try {
-            Template::destroy($id);
+            Role::destroy($id);
             afterPost($request);
             return redirect()->back();
         } catch (\Exception $e) {

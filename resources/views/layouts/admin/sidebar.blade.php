@@ -1,5 +1,6 @@
 @php
     $user = auth()->user();
+    $setting = App\Models\AppSetting::latest()->first();
 @endphp
 <!--begin::Sidebar-->
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
@@ -15,7 +16,7 @@
                 <div class="d-flex align-items-center" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                     data-kt-menu-overflow="true" data-kt-menu-placement="top-start">
                     <div class="d-flex flex-center cursor-pointer symbol symbol-custom symbol-40px">
-                        <img src="{{ asset('assets/metronic/media/avatars/300-2.jpg') }}" alt="image" />
+                        <img src="{{ url($user->photo) }}" alt="image" />
                     </div>
                     <!--begin::Username-->
                     <a href="#" class="text-white text-hover-primary fs-4 fw-bold ms-3">{{ $user->name }}</a>
@@ -30,12 +31,14 @@
                         <div class="menu-content d-flex align-items-center px-3">
                             <!--begin::Avatar-->
                             <div class="symbol symbol-50px me-5">
-                                <img alt="Logo" src="{{ asset('assets/metronic/media/avatars/300-2.jpg') }}" />
+                                <img alt="Logo" src="{{ url($user->photo) }}" />
                             </div>
                             <!--end::Avatar-->
                             <!--begin::Username-->
                             <div class="d-flex flex-column">
-                                <div class="fw-bold d-flex align-items-center fs-5">{{ substr($user->name, 5) }}
+                                <div
+                                    class="fw-bold d-flex {{ strlen($user->name) >= 10 ? 'flex-column' : '' }} align-items-center fs-5">
+                                    {{ $user->name }}
                                     <span
                                         class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">{{ $user->roles[0]->name }}</span>
                                 </div>
@@ -198,7 +201,7 @@
                                     </span>
                                     <span class="menu-title">Home</span>
                                 </a>
-                                @role(['superadmin', 'admin'])
+                                @role(['Super Admin', 'admin'])
                                     {{-- <a class="menu-link {{ getClassActive('admin.visitor-logs.index') }}"
                                         href="{{ route('admin.visitor-logs.index') }}">
                                         <span class="menu-bullet">
@@ -214,7 +217,7 @@
                         <!--end:Menu sub-->
                     </div>
                     <!--end:Menu item-->
-                    @role(['superadmin', 'admin'])
+                    @role(['Super Admin', 'admin'])
                         <!--begin:Menu item-->
                         <div data-kt-menu-trigger="click"
                             class="menu-item menu-accordion {{ getClassShow('admin.master.*') }}">
@@ -232,6 +235,23 @@
                                 <span class="menu-arrow"></span>
                             </span>
                             <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-accordion">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link {{ getClassActive('admin.master.roles.index') }}"
+                                        href="{{ route('admin.master.roles.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Roles</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-accordion">
                                 <!--begin:Menu item-->
@@ -286,13 +306,20 @@
                         <!--end:Menu link-->
                         <!--begin:Menu sub-->
                         <div class="menu-sub menu-sub-accordion">
-                            @role(['superadmin|admin'])
+                            @role(['Super Admin|admin'])
+                                <a class="menu-link {{ getClassActive('admin.settings.app-setting.index') }}"
+                                    href="{{ route('admin.settings.app-setting.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">App Setting</span>
+                                </a>
                                 <a class="menu-link {{ getClassActive('admin.settings.company.index') }}"
                                     href="{{ route('admin.settings.company.index') }}">
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Company Profile</span>
+                                    <span class="menu-title">{{ $setting->business_category_enum }} Profile</span>
                                 </a>
                             @endrole
                             <a class="menu-link {{ getClassActive('admin.settings.my-profile.index') }}"

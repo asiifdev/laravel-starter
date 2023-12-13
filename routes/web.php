@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AppSettingController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use Illuminate\Support\Facades\Route;
@@ -36,11 +38,13 @@ $user = auth()->user();
 
 Route::group(["as" => "admin.", "prefix" => "admin", "middleware" => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::group(["as" => "master.", "prefix" => "master", "middleware" => ['role:superadmin|admin']], function () {
+    Route::group(["as" => "master.", "prefix" => "master", "middleware" => ['role:Super Admin|admin']], function () {
+        Route::resource('roles', RolesController::class);
         Route::resource('users', UserController::class);
     });
     Route::group(["as" => "settings.", "prefix" => "settings", "middleware" => ['auth']], function () {
-        Route::resource('company', CompanySettingController::class)->middleware('role:superadmin|admin');
+        Route::resource('app-setting', AppSettingController::class)->middleware('role:Super Admin|admin');
+        Route::resource('company', CompanySettingController::class)->middleware('role:Super Admin|admin');
         Route::resource('my-profile', UserSettingController::class)->middleware('auth');
     });
 });
